@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDPR Compliance Checker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <header style="height: 100px; display: flex; align-items: center; justify-content: center; padding: 10px;">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="GDPR Checker Logo" style="width: 200px;">
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="scan-section">
+            <h1>Is your website GDPR Compliant?</h1>
+            <p>Scan your website for a free assessment</p>
+            <form id="gdprForm">
+                <input type="text" id="websiteUrl" placeholder="Enter the link to your website" required>
+                <button type="submit">Scan Now</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Progress Bar for Compliance Scan -->
+<div class="progress" id="progressContainer" style="display: none;">
+    <div class="progress-bar" role="progressbar" style="width: 0%" id="progressBar"></div>
+</div>
+
+
+    <div id="results-container" style="display: none;">
+        <h2>Results</h2>
+        <table id="results-table">
+            <thead>
+                <tr>
+                    <th>Criteria</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="results"></tbody>
+        </table>
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="downloadReport" style="display: none;">Download Report</button>
+        </div>
+    </div>
+
+    <!-- About the Tool (Collapsible Section) -->
+    <button class="collapsible">About the Tool</button>
+    <div class="content">
+        <h2>About the GDPR Compliance Checker Tool</h2>
+    
+        <p><strong>How it Works:</strong> Our tool provides a comprehensive analysis of your website’s GDPR compliance. It scans your website to ensure that key compliance elements, such as privacy policies, cookies, and data security practices, are properly implemented according to GDPR rules.</p>
+    
+        <p><strong>What It Checks:</strong> The tool checks whether your website contains essential GDPR elements, including:</p>
+        <ul>
+            <li><strong>Privacy Policy:</strong> Ensures that your website has a clear, easy-to-understand privacy policy that meets the GDPR guidelines.</li>
+            <li><strong>Cookie Consent:</strong> Verifies that your website provides a proper cookie consent banner to inform users about the use of cookies.</li>
+            <li><strong>Terms & Conditions:</strong> Confirms that your website has a detailed terms and conditions page outlining how user data is handled.</li>
+            <li><strong>Contact Page:</strong> Ensures that your site includes a contact page where users can reach out regarding their privacy concerns.</li>
+        </ul>
+    
+        <p><strong>Additional Features:</strong> 
+            Our tool also helps you check the security around personal data entry points, ensuring that data is protected according to GDPR standards. It provides you with a detailed compliance score and actionable feedback for improvement.
+        </p>
+    
+        <p><strong>Why It’s Important:</strong> GDPR compliance is crucial for your business, not only to avoid heavy fines but also to build trust with your users. By ensuring compliance, you demonstrate your commitment to protecting your users' privacy and security.</p>
+    
+        <p><strong>Benefits:</strong> 
+            - Stay compliant with GDPR regulations and avoid costly legal consequences. 
+            - Build and maintain trust with your users, which is essential in today’s data-driven world. 
+            - Ensure that personal data is protected, enhancing your brand reputation and customer loyalty. 
+            - Gain a competitive advantage by showing users that their data is safe with you.
+        </p>
+    
+        <h3>Get Started Now:</h3>
+        <p>Simply enter your website URL, and our tool will provide an instant GDPR compliance check along with a detailed report. Start now and make sure your website complies with the latest privacy laws!</p>
+    </div>
+    
+
+    <footer>
+        <div class="how-it-works">
+            <h2>How it works?</h2>
+            <div class="steps">
+                <div class="step">
+                    <img src="{{ url_for('static', filename='step1.png') }}" alt="Step 1">
+                    <p>See what type of data your site collects</p>
+                </div>
+                <div class="step">
+                    <img src="{{ url_for('static', filename='step2.png') }}" alt="Step 2">
+                    <p>Scan your privacy policy and cookie notice to ensure personal data is covered</p>
+                </div>
+                <div class="step">
+                    <img src="{{ url_for('static', filename='step3.png') }}" alt="Step 3">
+                    <p>Check the security around any personal data entry points</p>
+                </div>
+                <div class="step">
+                    <img src="{{ url_for('static', filename='step4.png') }}" alt="Step 4">
+                    <p>Get a report with your results!</p>
+                </div>
+            </div>
+        </div>
+
+        <p>© 2025 GDPR Compliance Checker. All Rights Reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <script>
+        // JavaScript for collapsible sections
+        const coll = document.querySelectorAll(".collapsible");
+        coll.forEach((item) => {
+            item.addEventListener("click", function() {
+                this.classList.toggle("active");
+                const content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
