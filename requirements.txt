@@ -1,1 +1,9 @@
 pip install -r requirements.txt
+
+Flask
+flask-cors
+requests
+selenium
+beautifulsoup4
+gunicorn
+
