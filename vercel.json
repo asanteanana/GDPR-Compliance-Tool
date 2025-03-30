@@ -5,22 +5,30 @@
             "src": "package.json",
             "use": "@vercel/static-build",
             "config": {
-                "distDir": "build"
+                "distDir": "build",
+                "buildCommand": "npm run build"
             }
         },
         {
-            "src": "App.py",
+            "src": "api/index.py",
             "use": "@vercel/python"
         }
     ],
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "App.py"
+            "dest": "api/index.py"
+        },
+        {
+            "handle": "filesystem"
         },
         {
             "src": "/(.*)",
-            "dest": "build/$1"
+            "dest": "/index.html"
         }
-    ]
+    ],
+    "env": {
+        "FLASK_ENV": "production",
+        "FLASK_APP": "api/index.py"
+    }
 }
