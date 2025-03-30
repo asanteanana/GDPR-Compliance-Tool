@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - GDPR Compliance Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --secondary-color: #5856D6;
+            --success-color: #34C759;
+            --danger-color: #FF3B30;
+            --warning-color: #FFCC00;
+            --background-color: #F2F2F7;
+            --card-background: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #8E8E93;
+            --border-radius: 12px;
+            --spacing: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: var(--text-primary);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing) / 2);
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+        }
+
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing);
+            margin-bottom: var(--spacing);
+        }
+
+        .stat-card {
+            background: var(--card-background);
+            padding: var(--spacing);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: calc(var(--spacing) / 2);
+        }
+
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-card .change {
+            color: var(--success-color);
+            font-size: 0.9rem;
+            margin-top: calc(var(--spacing) / 4);
+        }
+
+        .tasks-section,
+        .activities-section {
+            background: var(--card-background);
+            padding: var(--spacing);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .task-list,
+        .activity-list {
+            display: grid;
+            gap: calc(var(--spacing) / 2);
+        }
+
+        .task-item,
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: calc(var(--spacing) / 2);
+            background-color: var(--background-color);
+            border-radius: calc(var(--border-radius) / 2);
+        }
+
+        .task-item .status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.pending {
+            background-color: var(--warning-color);
+            color: var(--text-primary);
+        }
+
+        .status.completed {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: var(--spacing);
+            margin-bottom: var(--spacing);
+        }
+
+        .nav-tab {
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dashboard</h1>
+            <div class="user-info">
+                <span>{{ current_user.organization }}</span>
+                <a href="/logout" class="button">Logout</a>
+            </div>
+        </div>
+
+        <div class="overview">
+            <div class="stat-card">
+                <h3>Compliance Score</h3>
+                <div class="value">85%</div>
+                <div class="change">↑ 5% this month</div>
+            </div>
+            <div class="stat-card">
+                <h3>Active Tasks</h3>
+                <div class="value">{{ tasks|length }}</div>
+                <div class="change">2 due this week</div>
+            </div>
+            <div class="stat-card">
+                <h3>Data Processing Activities</h3>
+                <div class="value">{{ activities|length }}</div>
+                <div class="change">Updated today</div>
+            </div>
+        </div>
+
+        <div class="nav-tabs">
+            <div class="nav-tab active">Overview</div>
+            <div class="nav-tab">Tasks</div>
+            <div class="nav-tab">Activities</div>
+            <div class="nav-tab">Documents</div>
+        </div>
+
+        <div class="tasks-section">
+            <div class="section-header">
+                <h2>Compliance Tasks</h2>
+                <button class="button">Add Task</button>
+            </div>
+            <div class="task-list">
+                {% for task in tasks %}
+                <div class="task-item">
+                    <div>
+                        <h3>{{ task.title }}</h3>
+                        <p style="color: var(--text-secondary)">Due {{ task.deadline.strftime('%B %d, %Y') }}</p>
+                    </div>
+                    <span class="status {{ task.status }}">{{ task.status|title }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="activities-section">
+            <div class="section-header">
+                <h2>Data Processing Activities</h2>
+                <button class="button">Add Activity</button>
+            </div>
+            <div class="activity-list">
+                {% for activity in activities %}
+                <div class="activity-item">
+                    <div>
+                        <h3>{{ activity.name }}</h3>
+                        <p style="color: var(--text-secondary)">{{ activity.purpose }}</p>
+                    </div>
+                    <button class="button">View Details</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add interactivity for tabs
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

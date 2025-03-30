@@ -1,127 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GDPR Compliance Checker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>GDPR Compliance Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --secondary-color: #5856D6;
+            --success-color: #34C759;
+            --danger-color: #FF3B30;
+            --warning-color: #FFCC00;
+            --background-color: #F2F2F7;
+            --card-background: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #8E8E93;
+            --border-radius: 12px;
+            --spacing: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing);
+        }
+
+        .hero {
+            text-align: center;
+            padding: calc(var(--spacing) * 2) var(--spacing);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: var(--spacing);
+            opacity: 0.9;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing);
+            margin-bottom: var(--spacing);
+        }
+
+        .feature-card {
+            background: var(--card-background);
+            padding: var(--spacing);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: calc(var(--spacing) / 2);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        .cta {
+            text-align: center;
+            margin: calc(var(--spacing) * 2) 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .button.secondary {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            margin-left: var(--spacing);
+        }
+
+        @media (max-width: 768px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .button.secondary {
+                margin-left: 0;
+                margin-top: var(--spacing);
+            }
+        }
+    </style>
 </head>
+
 <body>
-
-    <header style="height: 100px; display: flex; align-items: center; justify-content: center; padding: 10px;">
-        <div class="logo-container">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="GDPR Checker Logo" style="width: 200px;">
-        </div>
-    </header>
-
-    <div class="main-container">
-        <div class="scan-section">
-            <h1>Is your website GDPR Compliant?</h1>
-            <p>Scan your website for a free assessment</p>
-            <form id="gdprForm">
-                <input type="text" id="websiteUrl" placeholder="Enter the link to your website" required>
-                <button type="submit">Scan Now</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Progress Bar for Compliance Scan -->
-<div class="progress" id="progressContainer" style="display: none;">
-    <div class="progress-bar" role="progressbar" style="width: 0%" id="progressBar"></div>
-</div>
-
-
-    <div id="results-container" style="display: none;">
-        <h2>Results</h2>
-        <table id="results-table">
-            <thead>
-                <tr>
-                    <th>Criteria</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="results"></tbody>
-        </table>
-        <div style="text-align: center; margin-top: 20px;">
-            <button id="downloadReport" style="display: none;">Download Report</button>
-        </div>
-    </div>
-
-    <!-- About the Tool (Collapsible Section) -->
-    <button class="collapsible">About the Tool</button>
-    <div class="content">
-        <h2>About the GDPR Compliance Checker Tool</h2>
-    
-        <p><strong>How it Works:</strong> Our tool provides a comprehensive analysis of your website’s GDPR compliance. It scans your website to ensure that key compliance elements, such as privacy policies, cookies, and data security practices, are properly implemented according to GDPR rules.</p>
-    
-        <p><strong>What It Checks:</strong> The tool checks whether your website contains essential GDPR elements, including:</p>
-        <ul>
-            <li><strong>Privacy Policy:</strong> Ensures that your website has a clear, easy-to-understand privacy policy that meets the GDPR guidelines.</li>
-            <li><strong>Cookie Consent:</strong> Verifies that your website provides a proper cookie consent banner to inform users about the use of cookies.</li>
-            <li><strong>Terms & Conditions:</strong> Confirms that your website has a detailed terms and conditions page outlining how user data is handled.</li>
-            <li><strong>Contact Page:</strong> Ensures that your site includes a contact page where users can reach out regarding their privacy concerns.</li>
-        </ul>
-    
-        <p><strong>Additional Features:</strong> 
-            Our tool also helps you check the security around personal data entry points, ensuring that data is protected according to GDPR standards. It provides you with a detailed compliance score and actionable feedback for improvement.
-        </p>
-    
-        <p><strong>Why It’s Important:</strong> GDPR compliance is crucial for your business, not only to avoid heavy fines but also to build trust with your users. By ensuring compliance, you demonstrate your commitment to protecting your users' privacy and security.</p>
-    
-        <p><strong>Benefits:</strong> 
-            - Stay compliant with GDPR regulations and avoid costly legal consequences. 
-            - Build and maintain trust with your users, which is essential in today’s data-driven world. 
-            - Ensure that personal data is protected, enhancing your brand reputation and customer loyalty. 
-            - Gain a competitive advantage by showing users that their data is safe with you.
-        </p>
-    
-        <h3>Get Started Now:</h3>
-        <p>Simply enter your website URL, and our tool will provide an instant GDPR compliance check along with a detailed report. Start now and make sure your website complies with the latest privacy laws!</p>
-    </div>
-    
-
-    <footer>
-        <div class="how-it-works">
-            <h2>How it works?</h2>
-            <div class="steps">
-                <div class="step">
-                    <img src="{{ url_for('static', filename='step1.png') }}" alt="Step 1">
-                    <p>See what type of data your site collects</p>
-                </div>
-                <div class="step">
-                    <img src="{{ url_for('static', filename='step2.png') }}" alt="Step 2">
-                    <p>Scan your privacy policy and cookie notice to ensure personal data is covered</p>
-                </div>
-                <div class="step">
-                    <img src="{{ url_for('static', filename='step3.png') }}" alt="Step 3">
-                    <p>Check the security around any personal data entry points</p>
-                </div>
-                <div class="step">
-                    <img src="{{ url_for('static', filename='step4.png') }}" alt="Step 4">
-                    <p>Get a report with your results!</p>
-                </div>
+    <div class="container">
+        <div class="hero">
+            <h1>GDPR Compliance Made Simple</h1>
+            <p>Track, manage, and ensure GDPR compliance with our modern and intuitive tool.</p>
+            <div class="cta">
+                <a href="/register" class="button">Get Started</a>
+                <a href="/login" class="button secondary">Sign In</a>
             </div>
         </div>
 
-        <p>© 2025 GDPR Compliance Checker. All Rights Reserved.</p>
-    </footer>
+        <div class="features">
+            <div class="feature-card">
+                <h3>📊 Compliance Dashboard</h3>
+                <p>Get a real-time overview of your organization's GDPR compliance status with our intuitive dashboard.
+                </p>
+            </div>
+            <div class="feature-card">
+                <h3>🔍 Data Processing</h3>
+                <p>Track and manage all your data processing activities in one place with detailed documentation.</p>
+            </div>
+            <div class="feature-card">
+                <h3>👤 Data Subject Rights</h3>
+                <p>Efficiently handle data subject requests and maintain compliance with GDPR requirements.</p>
+            </div>
+            <div class="feature-card">
+                <h3>⏰ Deadline Tracking</h3>
+                <p>Never miss important compliance deadlines with our automated reminder system.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📝 Documentation</h3>
+                <p>Generate and maintain all required GDPR documentation with our template system.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔐 Security First</h3>
+                <p>Built with security in mind, ensuring your compliance data is protected at all times.</p>
+            </div>
+        </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-
-    <script>
-        // JavaScript for collapsible sections
-        const coll = document.querySelectorAll(".collapsible");
-        coll.forEach((item) => {
-            item.addEventListener("click", function() {
-                this.classList.toggle("active");
-                const content = this.nextElementSibling;
-                if (content.style.display === "block") {
-                    content.style.display = "none";
-                } else {
-                    content.style.display = "block";
-                }
-            });
-        });
-    </script>
+        <div class="cta">
+            <h2>Ready to simplify your GDPR compliance?</h2>
+            <p style="color: var(--text-secondary); margin: var(--spacing) 0;">Join thousands of organizations that
+                trust our tool for their GDPR compliance needs.</p>
+            <a href="/register" class="button">Start Your Free Trial</a>
+        </div>
+    </div>
 </body>
+
 </html>
